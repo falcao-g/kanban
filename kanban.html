@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Kanban dev web</title>
+		<!-- CSS only -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<!-- JavaScript Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Import Vue.js -->
+		<script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
+		<!-- CSS próprio -->
+		<link rel="stylesheet" href="./kanban.css" />
+	</head>
+
+	<body>
+		<div id="kanbanDiv" class="container">
+			<div class="row form">
+				<!-- FORMULÁRIO-->
+				<div class="col-9">
+					<label for="nome" class="form-label">Nome da Tarefa:</label>
+					<input
+						id="nome"
+						name="nome"
+						type="text"
+						v-model="tarefa.nome"
+						class="form-control"
+					/>
+					<label for="tipo" class="form-label">Tipo:</label>
+					<select
+						id="tipo"
+						name="tipo"
+						v-model="tarefa.tipo"
+						class="form-control"
+					>
+						<option value="1">(TO DO)A fazer</option>
+						<option value="2">(DOING)Em Andamento</option>
+						<option value="3">(DONE)Concluído</option>
+					</select>
+					<label for="descricao" class="form-label">Descrição:</label>
+					<textarea
+						id="descricao"
+						name="descricao"
+						v-model="tarefa.descricao"
+						class="form-control"
+						style="resize: none"
+					></textarea>
+				</div>
+				<div class="col-3">
+					<button class="btn btn-primary" @click="adicionarTarefa">
+						Adicionar
+					</button>
+				</div>
+			</div>
+			<div class="row kanban">
+				<!-- KANBAN-->
+				<div id="todo" class="col-4">
+					<div class="title">TO DO</div>
+					<div>
+						<div v-for="data in dataTodo" class="card">
+							<div class="cardbody">
+								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
+								<button class="btn" @click="excluir(data.id, 'todo')">
+									<img
+										src="./excluir.png"
+										alt="Excluir"
+										width="20"
+										height="20"
+									/>
+								</button>
+								<div class="cardtext">{{data.descricao}}</div>
+								<div>
+									<button @click="mover(data.id, 'todo')">Mover</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="doing" class="col-4">
+					<div class="title">DOING</div>
+					<div>
+						<div v-for="data in dataDoing" class="card">
+							<div class="cardbody">
+								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
+								<button class="btn" @click="excluir(data.id, 'doing')">
+									<img
+										src="./excluir.png"
+										alt="Excluir"
+										width="20"
+										height="20"
+									/>
+								</button>
+								<div class="cardtext">{{data.descricao}}</div>
+								<div>
+									<button @click="mover(data.id, 'doing')">Mover</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="done" class="col-4">
+					<div class="title">DONE</div>
+					<div>
+						<div v-for="data in dataDone" class="card">
+							<div class="cardbody">
+								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
+								<button class="btn" @click="excluir(data.id, 'done')">
+									<img
+										src="./excluir.png"
+										alt="Excluir"
+										width="20"
+										height="20"
+									/>
+								</button>
+								<div class="cardtext">{{data.descricao}}</div>
+								<div>
+									<button @click="mover(data.id, 'done')">Mover</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Import Js -->
+		<script src="./kanban.js"></script>
+		<script>
+			const mountedApp = kanban.mount("#kanbanDiv")
+		</script>
+	</body>
+</html>

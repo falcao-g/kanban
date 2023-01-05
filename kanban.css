@@ -1,0 +1,40 @@
+#todo,
+#done,
+#doing {
+	height: 700px;
+	text-align: center;
+}
+
+#todo {
+	background-color: orangered;
+}
+
+#doing {
+	background-color: greenyellow;
+}
+
+#done {
+	background-color: lightblue;
+}
+
+div .form {
+	background-color: rgb(223, 238, 238) !important;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px black;
+}
+
+div .kanban {
+	box-shadow: 2px 2px 2px black;
+	border-radius: 10px;
+}
+
+body {
+	background-color: rgb(41, 122, 122);
+}
+
+.title {
+	font-weight: bold;
+	font-size: 20px;
+	box-shadow: 0px 0px 1px 0px black;
+}
