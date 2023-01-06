@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Kanban dev web</title>
+		<link rel="stylesheet" href="./reset.css" />
 		<!-- CSS only -->
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
@@ -20,7 +21,7 @@
 
 	<body>
 		<div id="kanbanDiv" class="container">
-			<div class="row form">
+			<div class="row form header">
 				<!-- FORMULÁRIO-->
 				<div class="col-9">
 					<label for="nome" class="form-label">Nome da Tarefa:</label>
@@ -36,11 +37,11 @@
 						id="tipo"
 						name="tipo"
 						v-model="tarefa.tipo"
-						class="form-control"
+						class="form-select"
 					>
-						<option value="1">(TO DO)A fazer</option>
-						<option value="2">(DOING)Em Andamento</option>
-						<option value="3">(DONE)Concluído</option>
+						<option value="1">A fazer</option>
+						<option value="2">Em Andamento</option>
+						<option value="3">Concluído</option>
 					</select>
 					<label for="descricao" class="form-label">Descrição:</label>
 					<textarea
@@ -50,78 +51,125 @@
 						class="form-control"
 						style="resize: none"
 					></textarea>
-				</div>
-				<div class="col-3">
-					<button class="btn btn-primary" @click="adicionarTarefa">
+
+					<button class="btn form-button" @click="adicionarTarefa">
 						Adicionar
 					</button>
 				</div>
 			</div>
-			<div class="row kanban">
+			<div class="row kanban" style="justify-content: space-between">
 				<!-- KANBAN-->
-				<div id="todo" class="col-4">
-					<div class="title">TO DO</div>
+
+				<div
+					id="todo"
+					class="col-3 drop-zone"
+					@drop="onDrop($event, 1)"
+					@dragover.prevent
+					@dragenter.prevent
+				>
+					<div class="title">A FAZER</div>
 					<div>
-						<div v-for="data in dataTodo" class="card">
+						<div
+							v-for="data in listaFazer"
+							class="card drag-el"
+							draggable
+							@dragstart="startDrag($event, data)"
+						>
 							<div class="cardbody">
-								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
-								<button class="btn" @click="excluir(data.id, 'todo')">
-									<img
-										src="./excluir.png"
-										alt="Excluir"
-										width="20"
-										height="20"
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									@click="excluir(data.id, 'todo')"
+									class="bi bi-trash3-fill deletecard"
+									viewBox="0 0 16 16"
+								>
+									<path
+										d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"
 									/>
-								</button>
-								<div class="cardtext">{{data.descricao}}</div>
-								<div>
-									<button @click="mover(data.id, 'todo')">Mover</button>
-								</div>
+								</svg>
+
+								<div class="cardtitle">{{data.nome}}</div>
 							</div>
+
+							<div class="cardtext">{{data.descricao}}</div>
 						</div>
 					</div>
 				</div>
-				<div id="doing" class="col-4">
-					<div class="title">DOING</div>
+
+				<div
+					id="doing"
+					class="col-3 drop-zone"
+					@drop="onDrop($event, 2)"
+					@dragover.prevent
+					@dragenter.prevent
+				>
+					<div class="title">EM ANDAMENTO</div>
 					<div>
-						<div v-for="data in dataDoing" class="card">
+						<div
+							v-for="data in listaFazendo"
+							class="card drag-el"
+							draggable
+							@dragstart="startDrag($event, data)"
+						>
 							<div class="cardbody">
-								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
-								<button class="btn" @click="excluir(data.id, 'doing')">
-									<img
-										src="./excluir.png"
-										alt="Excluir"
-										width="20"
-										height="20"
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									@click="excluir(data.id, 'doing')"
+									class="bi bi-trash3-fill deletecard"
+									viewBox="0 0 16 16"
+								>
+									<path
+										d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"
 									/>
-								</button>
-								<div class="cardtext">{{data.descricao}}</div>
-								<div>
-									<button @click="mover(data.id, 'doing')">Mover</button>
-								</div>
+								</svg>
+
+								<div class="cardtitle">{{data.nome}}</div>
 							</div>
+
+							<div class="cardtext">{{data.descricao}}</div>
 						</div>
 					</div>
 				</div>
-				<div id="done" class="col-4">
-					<div class="title">DONE</div>
+
+				<div
+					id="done"
+					class="col-3 drop-zone"
+					@drop="onDrop($event, 3)"
+					@dragover.prevent
+					@dragenter.prevent
+				>
+					<div class="title">CONCLUÍDO</div>
 					<div>
-						<div v-for="data in dataDone" class="card">
+						<div
+							v-for="data in listaFeito"
+							class="card drag-el"
+							draggable
+							@dragstart="startDrag($event, data)"
+						>
 							<div class="cardbody">
-								<div class="cardtitle">{{data.id}}-{{data.nome}}</div>
-								<button class="btn" @click="excluir(data.id, 'done')">
-									<img
-										src="./excluir.png"
-										alt="Excluir"
-										width="20"
-										height="20"
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									@click="excluir(data.id, 'done')"
+									class="bi bi-trash3-fill deletecard"
+									viewBox="0 0 16 16"
+								>
+									<path
+										d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"
 									/>
-								</button>
-								<div class="cardtext">{{data.descricao}}</div>
-								<div>
-									<button @click="mover(data.id, 'done')">Mover</button>
-								</div>
+								</svg>
+
+								<div class="cardtitle">{{data.nome}}</div>
 							</div>
+
+							<div class="cardtext">{{data.descricao}}</div>
 						</div>
 					</div>
 				</div>

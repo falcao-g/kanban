@@ -1,40 +1,129 @@
 #todo,
 #done,
 #doing {
-	height: 700px;
-	text-align: center;
+	min-height: 33em;
+	width: 23em;
+	border-radius: 0.3em;
+	box-shadow: 1px -1px 5px #495057;
 }
 
 #todo {
-	background-color: orangered;
+	color: #6e3630;
 }
 
 #doing {
-	background-color: greenyellow;
+	color: #89632a;
 }
 
 #done {
-	background-color: lightblue;
+	color: #2b593f;
+}
+
+#kanbanDiv {
+	max-width: 85%;
+}
+
+.form-control {
+	background-color: #343a40;
+	border: 1px solid #495057;
+	color: #adb5bd;
+}
+
+.form-control:focus {
+	background-color: #343a40;
+	color: #adb5bd;
+	border-color: #343a40;
+	box-shadow: 0 0 0 0.15rem #495057;
+}
+
+.form-select {
+	background-color: #343a40;
+	border: 1px solid #495057;
+	color: #adb5bd;
+}
+
+.form-select:focus {
+	border-color: #343a40;
+	box-shadow: 0 0 0 0.15rem #495057;
+}
+
+.form-button:hover {
+	border-color: #343a40;
+	box-shadow: 0 0 0 0.15rem #495057;
 }
 
 div .form {
-	background-color: rgb(223, 238, 238) !important;
 	margin-bottom: 10px;
 	border-radius: 10px;
-	box-shadow: 2px 2px 2px black;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	margin-top: 0.5em;
+	color: #adb5bd;
 }
 
 div .kanban {
-	box-shadow: 2px 2px 2px black;
 	border-radius: 10px;
+	margin-bottom: 0.5em;
 }
 
 body {
-	background-color: rgb(41, 122, 122);
+	background-color: #212529;
+}
+
+.card {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
 }
 
 .title {
 	font-weight: bold;
 	font-size: 20px;
-	box-shadow: 0px 0px 1px 0px black;
+	display: flex;
+	padding-top: 0.2em;
+	justify-content: center;
+}
+
+.header {
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+
+.form-button {
+	margin-top: 0.6em;
+	background-color: #4a4e69;
+	color: #adb5bd;
+}
+
+.card {
+	background-color: #343a40;
+	color: #adb5bd;
+	padding: 0.3em 0.3em;
+	text-align: center;
+}
+
+.card:hover {
+	box-shadow: 1px -1px 5px #495057;
+}
+
+.card:hover .deletecard {
+	display: block;
+}
+
+.deletecard {
+	width: 1.2em;
+	position: absolute;
+	display: none;
+	left: 20em;
+	background-color: #212529;
+	border-color: #212529;
+	border-radius: 0.4em;
+}
+
+.deletecard:hover {
+	cursor: pointer;
+}
+
+.cardtext {
+	margin-top: 0.3em;
 }

@@ -6,17 +6,16 @@ class Tarefa {
 		this.descricao = descricao
 	}
 }
+
 //arquivo com o código do Kanban
 const kanban = Vue.createApp({
 	// o método createApp cria um objeto Vue e o método mount() monta o componente na página.
 	data() {
 		//dados da aplicação
 		return {
-			dataTodo: [],
-			dataDoing: [],
-			dataDone: [],
 			codigoAtual: 0,
 			tarefa: new Tarefa(this.gerarId(), "", "", ""),
+			tarefas: [],
 		}
 	},
 	methods: {
@@ -25,40 +24,41 @@ const kanban = Vue.createApp({
 			return ++this.codigoAtual
 		},
 		adicionarTarefa() {
-			if (this.tarefa.tipo == 1) {
-				this.dataTodo.push(this.tarefa)
-			} else if (this.tarefa.tipo == 2) {
-				this.dataDoing.push(this.tarefa)
-			} else if (this.tarefa.tipo == 3) {
-				this.dataDone.push(this.tarefa)
-			}
-
+			this.tarefa.lista = this.tarefa.tipo
 			this.tarefa = new Tarefa(this.gerarId(), "", "", "")
+			this.tarefas.push(this.tarefa)
 		},
 		excluir(id, status) {
 			if (status === "todo") {
-				this.dataTodo = this.dataTodo.filter((item) => item.id != id)
+				this.tarefas = this.tarefas.filter((item) => item.id != id)
 			} else if (status == "doing") {
-				this.dataDoing = this.dataDoing.filter((item) => item.id != id)
+				this.tarefas = this.tarefas.filter((item) => item.id != id)
 			} else if (status == "done") {
-				this.dataDone = this.dataDone.filter((item) => item.id != id)
+				this.tarefas = this.tarefas.filter((item) => item.id != id)
 			}
 		},
-		mover(id, status) {
-			if (status === "todo") {
-				this.dataDoing.push(this.dataTodo.find((item) => item.id == id))
-				this.dataTodo = this.dataTodo.filter((item) => item.id != id)
-			} else if (status === "doing") {
-				this.dataDone.push(this.dataDoing.find((item) => item.id == id))
-				this.dataDoing = this.dataDoing.filter((item) => item.id != id)
-			} else if (status === "done") {
-				this.dataTodo.push(this.dataDone.find((item) => item.id == id))
-				this.dataDone = this.dataDone.filter((item) => item.id != id)
-			}
+		startDrag(evt, item) {
+			evt.dataTransfer.dropEffect = "move"
+			evt.dataTransfer.effectAllowed = "move"
+			evt.dataTransfer.setData("itemID", item.id)
+		},
+		onDrop(evt, list) {
+			const itemID = evt.dataTransfer.getData("itemID")
+			const item = this.tarefas.find((item) => item.id == itemID)
+			item.lista = list
 		},
 	},
 	computed: {
 		//dados computados da aplicação
+		listaFazer() {
+			return this.tarefas.filter((tarefa) => tarefa.lista == 1)
+		},
+		listaFazendo() {
+			return this.tarefas.filter((tarefa) => tarefa.lista == 2)
+		},
+		listaFeito() {
+			return this.tarefas.filter((tarefa) => tarefa.lista == 3)
+		},
 	},
 	created() {
 		this.adicionarTarefa()
