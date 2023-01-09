@@ -4,7 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Kanban dev web</title>
+		<title>Kanban</title>
+		<!-- CSS que reseta os estilos da página -->
 		<link rel="stylesheet" href="./reset.css" />
 		<!-- CSS only -->
 		<link
@@ -32,6 +33,7 @@
 						v-model="tarefa.nome"
 						class="form-control"
 					/>
+
 					<label for="tipo" class="form-label">Tipo:</label>
 					<select
 						id="tipo"
@@ -43,6 +45,7 @@
 						<option value="2">Em Andamento</option>
 						<option value="3">Concluído</option>
 					</select>
+
 					<label for="descricao" class="form-label">Descrição:</label>
 					<textarea
 						id="descricao"
@@ -58,8 +61,6 @@
 				</div>
 			</div>
 			<div class="row kanban" style="justify-content: space-between">
-				<!-- KANBAN-->
-
 				<div
 					id="todo"
 					class="col-3 drop-zone"

@@ -1,26 +1,24 @@
-#todo,
-#done,
-#doing {
-	min-height: 33em;
-	width: 23em;
-	border-radius: 0.3em;
-	box-shadow: 1px -1px 5px #495057;
-}
-
-#todo {
-	color: #6e3630;
-}
-
-#doing {
-	color: #89632a;
-}
-
-#done {
-	color: #2b593f;
+body {
+	background-color: #212529;
 }
 
 #kanbanDiv {
 	max-width: 85%;
+}
+
+.header {
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+
+div .form {
+	margin-bottom: 10px;
+	border-radius: 10px;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	margin-top: 0.5em;
+	color: #adb5bd;
 }
 
 .form-control {
@@ -47,31 +45,19 @@
 	box-shadow: 0 0 0 0.15rem #495057;
 }
 
+.form-button {
+	margin-top: 0.6em;
+	background-color: #4a4e69;
+	color: #adb5bd;
+}
+
 .form-button:hover {
 	border-color: #343a40;
 	box-shadow: 0 0 0 0.15rem #495057;
 }
 
-div .form {
-	margin-bottom: 10px;
-	border-radius: 10px;
-	padding-top: 0.3em;
-	padding-bottom: 0.3em;
-	margin-top: 0.5em;
-	color: #adb5bd;
-}
-
 div .kanban {
 	border-radius: 10px;
-	margin-bottom: 0.5em;
-}
-
-body {
-	background-color: #212529;
-}
-
-.card {
-	margin-top: 1em;
 	margin-bottom: 0.5em;
 }
 
@@ -83,19 +69,30 @@ body {
 	justify-content: center;
 }
 
-.header {
-	text-align: center;
-	align-items: center;
-	justify-content: center;
+#todo,
+#done,
+#doing {
+	min-height: 33em;
+	width: 23em;
+	border-radius: 0.3em;
+	box-shadow: 1px -1px 5px #495057;
 }
 
-.form-button {
-	margin-top: 0.6em;
-	background-color: #4a4e69;
-	color: #adb5bd;
+#todo {
+	color: #6e3630;
+}
+
+#doing {
+	color: #89632a;
+}
+
+#done {
+	color: #2b593f;
 }
 
 .card {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
 	background-color: #343a40;
 	color: #adb5bd;
 	padding: 0.3em 0.3em;
@@ -104,6 +101,10 @@ body {
 
 .card:hover {
 	box-shadow: 1px -1px 5px #495057;
+}
+
+.cardtext {
+	margin-top: 0.3em;
 }
 
 .card:hover .deletecard {
@@ -122,8 +123,4 @@ body {
 
 .deletecard:hover {
 	cursor: pointer;
-}
-
-.cardtext {
-	margin-top: 0.3em;
 }
